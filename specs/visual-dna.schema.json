@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blackmamba.local/fluid/visual-dna.schema.json",
+  "title": "fluid Visual DNA",
+  "type": "object",
+  "required": ["schema_version", "id", "name", "geometry", "motion", "palette", "audio_bindings", "mutation"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "parents": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "seed": { "type": ["integer", "null"] },
+    "geometry": { "type": "object", "additionalProperties": { "type": ["number", "integer", "string", "boolean"] } },
+    "motion": { "type": "object", "additionalProperties": { "type": ["number", "integer", "string", "boolean"] } },
+    "palette": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "audio_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "min", "max"],
+        "properties": {
+          "source": { "enum": ["rms", "low", "mid", "high", "spectral_centroid", "beat"] },
+          "target": { "type": "string" },
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "smoothing": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "mutation": {
+      "type": "object",
+      "properties": {
+        "rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "allowed_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
